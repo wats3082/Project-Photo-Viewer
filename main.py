@@ -5,6 +5,7 @@ from PIL import Image, ImageTk
 
 root = Tk()
 root.title("Learn to use Images")
+root.title(geography = "600x600")
 
 myImg3 = ImageTk.PhotoImage(Image.open("istockphoto-1255835530-170667a.jpg"))
 myImg2 = ImageTk.PhotoImage(Image.open("istockphoto-1268675353-170667a.jpg"))
