@@ -1,86 +1,99 @@
-# ImageViewer
 from tkinter import *
-from PIL import Image, ImageTk
-#the big idea is to define the widget, create the widget , then you have to add widget to screen
+from tkinter import IntVar, messagebox
 
 root = Tk()
-root.title("Learn to use Images")
-root.title(geography = "600x600")
+root.title("This is a frame.")
+root.geometry("400x700")
+# root.iconbitmap('input pathway here for different window icon')
 
-myImg3 = ImageTk.PhotoImage(Image.open("istockphoto-1255835530-170667a.jpg"))
-myImg2 = ImageTk.PhotoImage(Image.open("istockphoto-1268675353-170667a.jpg"))
-myImg1 = ImageTk.PhotoImage(Image.open("photo.jpg"))
+frame = LabelFrame(root, padx=10, pady=20)
+frame.pack(padx=20, pady=20)
 
-image_list = [myImg1, myImg2, myImg3]
-click_count = 0
-image_number = 1
-
-myLabel = Label(image=myImg1)
-myLabel.grid(row=0, column=0, columnspan=3)  # we make it span 3 because we want 3 buttons underneath
-
-# status bar to show which image is on the screen
-status_bar = Label(root, text="Image " + str(image_number) + " of " + str(len(image_list)), bd=1, relief=SUNKEN,
-                   anchor=E) #stick it to the east or right side of window
-# len will give you the length of a file and must cast it as a string
+button = Button(frame, text="Dont click here.")
+# dont put this in root, add it to frame instead
+button.grid(row=0, column=0)
+button2 = Button(frame, text="Or here....")
+# you can also use grid and pack together when working with frames
+button2.grid(row=1, column=0)
 
 
-
-def ForwardFunction(image_number):
-    global myLabel
-    global buttonForward
-    global buttonBack
-
-    myLabel.grid_forget()  # we use this to delete current image before dispaying second image
-    myLabel = Label(image=image_list[
-        image_number - 1])  # use to access next image in array above, minus one because the index starts at 0
-    buttonForward = Button(root, text=">>>>>", command=lambda: ForwardFunction(image_number + 1))
-    buttonBack = Button(root, text="<<<<<<", command=lambda: BackFunction(image_number - 1))
-
-    if image_number == 3:
-        buttonForward = Button(root, text=">>>>>", state=DISABLED)  # use this to disable list at the end of images
-
-    myLabel.grid(row=0, column=0, columnspan=3)  # use this to put the new image on screen
-    buttonBack.grid(row=3, column=0)
-    buttonForward.grid(row=3, column=2)
-    status_bar = Label(root, text="Image " + str(image_number) + " of " + str(len(image_list)), bd=1, relief=SUNKEN,
-                       anchor=E)  # stick it to the east or right side of window
-    status_bar.grid(row=4, column=0, columnspan=3, sticky=W + E)
+# radio buttons or the round buttons next to menu
 
 
-def BackFunction(image_number):
-    global myLabel
-    global buttonForward
-    global buttonBack
+def Click(value):
+    myLabel = Label(root, text=value)
+    myLabel.pack()
 
-    myLabel.grid_forget()  # we use this to delete current image before dispaying second image
-    myLabel = Label(image=image_list[
-        image_number - 1])  # you have to minus one because the index starts at 0
-    buttonForward = Button(root, text=">>>>>", command=lambda: ForwardFunction(image_number + 1))
-    buttonBack = Button(root, text="<<<<<<", command=lambda: BackFunction(image_number - 1))
 
-    if image_number == 1:
-        buttonBack = Button(root, text="<<<<<<", state=DISABLED)  # use this to disable list at the end of images
+# using a kinter variable here, not python
+r: IntVar = IntVar()  # lets kinter update changes throught the entire program
+r.set("1")
 
-    myLabel.grid(row=0, column=0, columnspan=3)  # use this to put the new image on screen
-    buttonBack.grid(row=3, column=0)
-    buttonForward.grid(row=3, column=2)
-    status_bar = Label(root, text="Image " + str(image_number) + " of " + str(len(image_list)), bd=1, relief=SUNKEN,
-                       anchor=E)  # stick it to the east or right side of window
-    status_bar.grid(row=4, column=0, columnspan=3, sticky=W + E)
+# create a Python tuple list for wanted radio options
+TOPPINGS = [
+    ("Pepperoni", "Pepperoni"),
+    ("Cheese", "Cheese"),  # first thing is option shows on screen, 2nd is the value it passes
+    ("Mushroom", "Mushroom"),
+    ("Olive", "Olive"),
+]
+pizza = StringVar()
+pizza.set("Pepperoni")
 
-if click_count != 0:
-    buttonBack = Button(root, text="<<<<", command=lambda: BackFunction(2))
-else:
-    buttonBack = Button(root, text="<<<<", state=DISABLED)
-buttonExit = Button(root, text="Exit", command=root.quit)
-buttonForward = Button(root, text=">>>>", command=lambda: ForwardFunction(2))
-# you pass 2 because the first time you click the forward button you want the second image in the list
+for text, mode in TOPPINGS:
+    Radiobutton(root, text=text, variable=pizza, value=mode).pack(anchor=W)  # loop to create alot of buttons easier
 
-buttonBack.grid(row=3, column=0)
-buttonExit.grid(row=3, column=1)
-buttonForward.grid(row=3, column=2, pady=10)
-status_bar.grid(row=4, column=0, columnspan=3, sticky=W+E)
-# use sticky coordinates to tell it to stretch in any direction, in this case west to east or the whole bottom
+# radio1 = Radiobutton(root, text="Option 1", variable=r, value=1, command=lambda : Click(r.get()))  # when they click this one, it is option 1
+# radio1.pack()
+# radio2 = Radiobutton(root, text="Option 2", variable=r, value=2, command=lambda : Click(r.get()))  # when they click this one, it is option 2
+# radio2.pack()
+# myLabel = Label(root, text= r.get())
+# myLabel.pack()
+myButton = Button(root, text="Add to Cart...", command=lambda: Click(pizza.get()))
+myButton.pack()
+
+
+# MESSAGE BOX
+# can use showinfo, showwarning, showerror, askquestion, askokcancel, askyesno
+def Popup():
+    response = messagebox.askyesno("This is my popbox", "Hello World")
+    print(response)
+    if response == 1:
+        Label(root, text="You clicked Yes").pack()
+    else:
+        Label(root, text="You clicked No").pack()
+
+
+Button(root, text="popup", command=Popup).pack()
+
+# SLIDERS
+# notice how you have to use an underscore for the from, also how it is called Scale not slider
+slider1 = Scale(root, from_=0, to=100)
+slider1.pack()
+slider2 = Scale(root, from_=0, to=10, orient=HORIZONTAL)
+slider2.pack()
+
+# CHECKBOXES
+
+def Show():
+    label4 = Label(root, text=var.get()).pack()
+
+
+var = StringVar()
+checkbox1 = Checkbutton(root, text="check here to add fries and a drink +$4",variable=var, onvalue="On", offvalue="Off")
+checkbox1.deselect()
+checkbox1.pack()
+myButton4 = Button(root, text="Show Selection", command=Show).pack()
+
+
+
+# DROP DOWN BOX
+
+clicked = StringVar()
+clicked.set("Monday")
+dropdown1 = OptionMenu(root, clicked, "Monday", "Tuesday", "Wednesday", "Thursday", "Friday")
+dropdown1.pack()
+print(clicked.get())
+
 
 
 root.mainloop()
