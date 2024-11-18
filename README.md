@@ -1,8 +1,5 @@
-It looks like you're trying to create a photo viewer in Python using Tkinter, but the code you've provided is more of a general-purpose GUI application with a variety of widgets like buttons, radio buttons, checkboxes, and sliders. 
 
-To help you build a simple **photo viewer** using Tkinter, I'll modify your existing code to load and display images. The photo viewer will allow you to browse images, display them in a window, and add simple controls like next/previous buttons to navigate through them.
-
-Here's how you can do it:
+To help you build a simple **photo viewer** 
 
 
 
